@@ -22,7 +22,7 @@ const App = () => {
       <Route path="/update-movie/:id" component={UpdateMovie} 
       render={props => {
         return <UpdateMovie {...props} />;
-      }}/> 
+      }} /> 
       <Route
         path="/movies/:id"
         render={props => {
