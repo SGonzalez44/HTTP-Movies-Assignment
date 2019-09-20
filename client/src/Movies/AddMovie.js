@@ -2,31 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Input, TextArea, Button, Form} from 'semantic-ui-react';
 
-const UpdateMovie = props => {
+const AddMovie = props => {
   const [movie, setMovie] = useState({
-    id: "",
     title: "",
     director: "",
     metascore: "",
-    stars: []
+    stars: ""
   });
 
-  useEffect(() => {
-    const id = props.match.params.id;
-    axios
-      .get(`http://localhost:5000/api/movies/${id}`)
-      .then(res => {
-        setMovie({
-          id: id,
-          title: res.data.title,
-          director: res.data.director,
-          metascore: res.data.metascore,
-          stars: res.data.stars
-        });
-      })
-
-      .catch(err => console.log(err));
-  }, []);
+  useEffect(() => {}, []);
 
   const handleChange = e => {
     setMovie({
@@ -43,8 +27,6 @@ const UpdateMovie = props => {
       movie.stars != "" &&
       movie.metascore != ""
     ) {
-      console.log(movie);
-      console.log("submit handler");
       if (typeof movie.stars == "string") {
         const stars = movie.stars.split(",");
 
@@ -54,10 +36,7 @@ const UpdateMovie = props => {
         };
 
         axios
-          .put(
-            `http://localhost:5000/api/movies/${props.match.params.id}`,
-            newMovie
-          )
+          .post(`http://localhost:5000/api/movies`, newMovie)
           .then(res => {
             props.history.push("/");
           })
@@ -66,10 +45,7 @@ const UpdateMovie = props => {
           });
       } else {
         axios
-          .put(
-            `http://localhost:5000/api/movies/${props.match.params.id}`,
-            movie
-          )
+          .post(`http://localhost:5000/api/movies`, movie)
           .then(res => {
             props.history.push("/");
           })
@@ -105,9 +81,9 @@ const UpdateMovie = props => {
         name="stars"
         placeholder="Stars - Seperate by commas"
       />
-      <Button color="green">Update Movie</Button>
+      <Button color="green">Add Movie</Button>
     </Form>
   );
 };
 
-export default UpdateMovie;
+export default AddMovie;
